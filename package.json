@@ -6,18 +6,25 @@
     "ember-addon"
   ],
   "license": "MIT",
-  "author": "",
+  "author": "Simon Ihmig <ihmig@kaliber5.de>",
   "directories": {
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simonihmig/ember-cli-concat-analyzer"
+  },
   "scripts": {
     "build": "ember build",
     "start": "ember server",
     "test": "ember try:each"
   },
   "dependencies": {
+    "broccoli": "^1.1.2",
+    "broccoli-caching-writer": "^3.0.3",
+    "broccoli-concat-analyser": "^2.0.2",
+    "broccoli-merge-trees": "^2.0.0",
     "ember-cli-babel": "^6.3.0"
   },
   "devDependencies": {

@@ -16,6 +16,8 @@
 npm-debug.log*
 yarn-error.log
 testem.log
+/.idea
+/concat-stats-for
 
 # ember-try
 .node_modules.ember-try/
