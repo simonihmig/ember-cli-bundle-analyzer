@@ -991,9 +991,9 @@ broccoli-clean-css@^1.1.0:
     inline-source-map-comment "^1.0.5"
     json-stable-stringify "^1.0.0"
 
-broccoli-concat-analyser@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/broccoli-concat-analyser/-/broccoli-concat-analyser-2.0.2.tgz#57b1582c231d36f1b4ce5566acb9f9f91a18f414"
+broccoli-concat-analyser@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/broccoli-concat-analyser/-/broccoli-concat-analyser-2.1.0.tgz#9f0d6fdab2d53dc6a6531afc23911c27d25bf320"
   dependencies:
     cpr "^2.0.0"
     filesize "^3.3.0"

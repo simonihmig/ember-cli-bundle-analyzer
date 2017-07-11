@@ -23,7 +23,7 @@
   "dependencies": {
     "broccoli": "^1.1.2",
     "broccoli-caching-writer": "^3.0.3",
-    "broccoli-concat-analyser": "^2.0.2",
+    "broccoli-concat-analyser": "^2.1.0",
     "broccoli-merge-trees": "^2.0.0",
     "ember-cli-babel": "^6.3.0"
   },
