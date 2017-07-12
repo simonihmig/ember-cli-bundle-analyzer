@@ -1,4 +1,5 @@
 # ember-cli-concat-analyzer
+[![Build Status](https://travis-ci.org/simonihmig/ember-cli-concat-analyzer.svg?branch=master)](https://travis-ci.org/simonihmig/ember-cli-concat-analyzer)
 
 This README outlines the details of collaborating on this Ember addon.
 
