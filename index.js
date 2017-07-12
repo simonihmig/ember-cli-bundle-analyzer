@@ -36,7 +36,7 @@ module.exports = {
             this.middleware(req, res, next);
           })
           .catch((err) => {
-            console.error(err);
+            console.error(err); // eslint-disable-line no-console
             res.send(err.message);
           });
       }
