@@ -46,6 +46,7 @@
     "ember-resolver": "^4.0.0",
     "ember-source": "~2.14.0",
     "loader.js": "^4.2.3",
+    "mocha": "^3.4.2",
     "mocha-eslint": "^4.0.0"
   },
   "engines": {
