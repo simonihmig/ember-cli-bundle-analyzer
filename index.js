@@ -2,7 +2,9 @@
 
 const path = require('path');
 const { createOutput, summarizeAll } = require('broccoli-concat-analyser');
+const fs = require('fs');
 const sane = require('sane');
+const touch = require('touch');
 const hashFiles = require('hash-files').sync;
 const tmp = require('tmp');
 const VersionChecker = require('ember-cli-version-checker');
@@ -13,6 +15,7 @@ const BROCCOLI_CONCAT_PATH_SUPPORT = '3.6.0';
 module.exports = {
   name: 'ember-cli-concat-analyzer',
   _hashedFiles: {},
+  _statsOutput: null,
 
   init() {
     this._super.init && this._super.init.apply(this, arguments);
@@ -48,16 +51,23 @@ module.exports = {
     app.get(REQUEST_PATH, (req, res) => {
 
       if (!this.hasStats()) {
-        res.sendFile(path.join(__dirname, 'lib', 'output', 'no-stats', 'index.html'));
-      } else if (!this._cache) {
+        this.enableStats();
+        this.triggerBuild();
+      }
+
+      if (!this._statsOutput) {
         res.sendFile(path.join(__dirname, 'lib', 'output', 'computing', 'index.html'));
       } else {
-        res.send(this._cache);
+        res.send(this._statsOutput);
       }
     });
 
     app.get(`${REQUEST_PATH}/compute`, (req, res) => {
-      this._cache = this.buildOutput();
+      if (!this.hasStats()) {
+        res.sendFile(path.join(__dirname, 'lib', 'output', 'no-stats', 'index.html'));
+        return;
+      }
+      this._statsOutput = this.buildOutput();
       res.redirect(REQUEST_PATH);
     });
   },
@@ -81,7 +91,7 @@ module.exports = {
 
     if (this._hashedFiles[filename] !== hash) {
       // console.log(`Cache invalidated by ${filename}`);
-      this._cache = null;
+      this._statsOutput = null;
       this._hashedFiles[filename] = hash;
     }
   },
@@ -91,6 +101,15 @@ module.exports = {
   },
 
   hasStats() {
-    return !!process.env.CONCAT_STATS;
+    return !!process.env.CONCAT_STATS && fs.existsSync(concatStatsPath);
+  },
+
+  enableStats() {
+    process.env.CONCAT_STATS = 'true';
+  },
+
+  triggerBuild() {
+    let { root } = this.project;
+    touch(path.join(root, 'tests/dummy/app/app.js'));
   }
 };
