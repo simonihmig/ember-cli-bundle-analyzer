@@ -16,7 +16,6 @@ module.exports = {
   serverMiddleware(config) {
     if (this.isEnabled()) {
       this.addAnalyzeMiddleware(config);
-      this.initWatcher();
     }
   },
 
@@ -42,6 +41,7 @@ module.exports = {
 
   buildOutput() {
     summarizeAll(concatStatsPath);
+    this.initWatcher();
     return createOutput(concatStatsPath);
   },
 
