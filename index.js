@@ -3,16 +3,20 @@
 
 const path = require('path');
 const { createOutput, summarizeAll } = require('broccoli-concat-analyser');
+const sane = require('sane');
+const hashFiles = require('hash-files').sync;
 
 const REQUEST_PATH = '/_analyze';
 const concatStatsPath = path.join(process.cwd(), './concat-stats-for');
 
 module.exports = {
   name: 'ember-cli-concat-analyzer',
+  _hashedFiles: {},
 
   serverMiddleware(config) {
     if (this.isEnabled()) {
       this.addAnalyzeMiddleware(config);
+      this.initWatcher();
     }
   },
 
@@ -24,11 +28,35 @@ module.exports = {
       if (!this.hasStats()) {
         res.sendFile(path.join(__dirname, 'lib', 'output', 'no-stats', 'index.html'));
       } else {
-        summarizeAll(concatStatsPath);
-        let content = createOutput(concatStatsPath);
-        res.send(content);
+        if (!this._cache) {
+          this._cache = this.buildOutput();
+        }
+        res.send(this._cache);
       }
     });
+  },
+
+  buildOutput() {
+    summarizeAll(concatStatsPath);
+    return createOutput(concatStatsPath);
+  },
+
+  initWatcher() {
+    let watcher = sane(concatStatsPath, { glob: ['*.json'], ignored: ['*.out.json'] });
+    watcher.on('change', this._handleWatcher.bind(this));
+    watcher.on('add', this._handleWatcher.bind(this));
+    watcher.on('delete', this._handleWatcher.bind(this));
+  },
+
+  _handleWatcher(filename, root, stat) {
+    let file = path.join(root, filename);
+    let hash = hashFiles({ files: [file] });
+
+    if (this._hashedFiles[filename] !== hash) {
+      // console.log(`Cache invalidated by ${filename}`);
+      this._cache = null;
+      this._hashedFiles[filename] = hash;
+    }
   },
 
   isEnabled() {
