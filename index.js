@@ -23,16 +23,20 @@ module.exports = {
   addAnalyzeMiddleware(config) {
     let app = config.app;
 
-    app.use(REQUEST_PATH, (req, res /*, next*/) => {
+    app.get(REQUEST_PATH, (req, res) => {
 
       if (!this.hasStats()) {
         res.sendFile(path.join(__dirname, 'lib', 'output', 'no-stats', 'index.html'));
+      } else if (!this._cache) {
+        res.sendFile(path.join(__dirname, 'lib', 'output', 'computing', 'index.html'));
       } else {
-        if (!this._cache) {
-          this._cache = this.buildOutput();
-        }
         res.send(this._cache);
       }
+    });
+
+    app.get(`${REQUEST_PATH}/compute`, (req, res) => {
+      this._cache = this.buildOutput();
+      res.redirect(REQUEST_PATH);
     });
   },
 
