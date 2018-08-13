@@ -27,7 +27,8 @@
     "broccoli-merge-trees": "^2.0.0",
     "ember-cli-babel": "^6.3.0",
     "hash-files": "^1.1.1",
-    "sane": "^3.0.0"
+    "sane": "^3.0.0",
+    "tmp": "^0.0.33"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",

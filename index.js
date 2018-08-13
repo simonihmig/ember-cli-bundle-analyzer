@@ -5,9 +5,9 @@ const path = require('path');
 const { createOutput, summarizeAll } = require('broccoli-concat-analyser');
 const sane = require('sane');
 const hashFiles = require('hash-files').sync;
+const tmp = require('tmp');
 
 const REQUEST_PATH = '/_analyze';
-const concatStatsPath = path.join(process.cwd(), './concat-stats-for');
 
 module.exports = {
   name: 'ember-cli-concat-analyzer',
@@ -15,9 +15,13 @@ module.exports = {
 
   init() {
     this._super.init && this._super.init.apply(this, arguments);
+    this.concatStatsPath = tmp.dirSync().name;
 
     // Enable concat stats by default, as setting this later will not work
     process.env.CONCAT_STATS = true;
+
+    // @todo check for older broccoli-concat that does not support this:
+    process.env.CONCAT_STATS_PATH = this.concatStatsPath;
   },
 
   serverMiddleware(config) {
@@ -47,13 +51,13 @@ module.exports = {
   },
 
   buildOutput() {
-    summarizeAll(concatStatsPath);
+    summarizeAll(this.concatStatsPath);
     this.initWatcher();
-    return createOutput(concatStatsPath);
+    return createOutput(this.concatStatsPath);
   },
 
   initWatcher() {
-    let watcher = sane(concatStatsPath, { glob: ['*.json'], ignored: ['*.out.json'] });
+    let watcher = sane(this.concatStatsPath, { glob: ['*.json'], ignored: ['*.out.json'] });
     watcher.on('change', this._handleWatcher.bind(this));
     watcher.on('add', this._handleWatcher.bind(this));
     watcher.on('delete', this._handleWatcher.bind(this));
