@@ -13,6 +13,13 @@ module.exports = {
   name: 'ember-cli-concat-analyzer',
   _hashedFiles: {},
 
+  init() {
+    this._super.init && this._super.init.apply(this, arguments);
+
+    // Enable concat stats by default, as setting this later will not work
+    process.env.CONCAT_STATS = true;
+  },
+
   serverMiddleware(config) {
     if (this.isEnabled()) {
       this.addAnalyzeMiddleware(config);
