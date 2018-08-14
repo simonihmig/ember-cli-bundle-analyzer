@@ -3,3 +3,7 @@ node_js:
   - "6"
 cache: yarn
 sudo: false
+
+script:
+  - npm run lint:js
+  - npm run test
