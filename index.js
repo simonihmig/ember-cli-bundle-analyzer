@@ -63,7 +63,7 @@ module.exports = {
     watcher.on('delete', this._handleWatcher.bind(this));
   },
 
-  _handleWatcher(filename, root, stat) {
+  _handleWatcher(filename, root/*, stat*/) {
     let file = path.join(root, filename);
     let hash = hashFiles({ files: [file] });
 
