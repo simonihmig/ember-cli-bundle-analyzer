@@ -25,6 +25,7 @@
   "dependencies": {
     "broccoli-concat-analyser": "^4.1.0",
     "ember-cli-babel": "^6.6.0",
+    "ember-cli-version-checker": "^2.1.2",
     "hash-files": "^1.1.1",
     "sane": "^3.0.0",
     "tmp": "^0.0.33"

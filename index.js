@@ -5,8 +5,10 @@ const { createOutput, summarizeAll } = require('broccoli-concat-analyser');
 const sane = require('sane');
 const hashFiles = require('hash-files').sync;
 const tmp = require('tmp');
+const VersionChecker = require('ember-cli-version-checker');
 
 const REQUEST_PATH = '/_analyze';
+const BROCCOLI_CONCAT_PATH_SUPPORT = '3.6.0';
 
 module.exports = {
   name: 'ember-cli-concat-analyzer',
@@ -14,13 +16,24 @@ module.exports = {
 
   init() {
     this._super.init && this._super.init.apply(this, arguments);
-    this.concatStatsPath = tmp.dirSync().name;
 
     // Enable concat stats by default, as setting this later will not work
     process.env.CONCAT_STATS = true;
 
-    // @todo check for older broccoli-concat that does not support this:
-    process.env.CONCAT_STATS_PATH = this.concatStatsPath;
+    this.initConcatStatsPath();
+  },
+
+  initConcatStatsPath() {
+    let checker = new VersionChecker(this);
+    let concatVersion = checker.for('broccoli-concat');
+
+    // if broccoli-concat supports a custom path for stats data, put the data in a temp folder outside of the project!
+    if (concatVersion.gte(BROCCOLI_CONCAT_PATH_SUPPORT)) {
+      this.concatStatsPath = tmp.dirSync().name;
+      process.env.CONCAT_STATS_PATH = this.concatStatsPath;
+    } else {
+      this.concatStatsPath = path.join(process.cwd(), 'concat-stats-for');
+    }
   },
 
   serverMiddleware(config) {
