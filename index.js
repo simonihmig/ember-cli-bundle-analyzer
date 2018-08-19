@@ -80,7 +80,7 @@ module.exports = {
             // @todo make this throw an exception when there are no stats
             this._statsOutput = this.buildOutput();
             res.redirect(REQUEST_PATH);
-          } catch (e) {
+          } catch(e) {
             res.sendFile(path.join(__dirname, 'lib', 'output', 'no-stats', 'index.html'));
           }
         });
@@ -129,19 +129,39 @@ module.exports = {
   },
 
   triggerBuild() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       let stopIntercept = interceptStdout((text) => {
         if (text.match(/Build successful/)) {
-          debug('Finished build detected');
           stopIntercept();
+          debug('Finished build detected');
           setTimeout(resolve, 10);
         }
       });
 
-      let { root } = this.project;
       debug('Triggering build');
-      // @todo be smarter about path (app, addon, MU)
-      touch(path.join(root, 'tests/dummy/app/app.js'));
+      let mainFile = this.getMainFile();
+      if (mainFile) {
+        debug(`Touching ${mainFile}`);
+        touch(mainFile);
+      } else {
+        reject('No main file found to trigger build')
+      }
     });
+  },
+
+  getMainFile() {
+    let { root } = this.project;
+    let mainCandidates = [
+      'app/app.js', // app
+      'src/main.js', // MU
+      'tests/dummy/app/app.js' // addon dummy app
+    ]
+      .map((item) => path.join(root, item));
+
+    for (let mainFile of mainCandidates) {
+      if (fs.existsSync(mainFile)) {
+        return mainFile
+      }
+    }
   }
 };
