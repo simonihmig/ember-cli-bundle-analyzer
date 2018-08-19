@@ -12,8 +12,8 @@ const interceptStdout = require('intercept-stdout');
 
 const REQUEST_PATH = '/_analyze';
 const BROCCOLI_CONCAT_PATH_SUPPORT = '3.6.0';
+const BROCCOLI_CONCAT_LAZY_SUPPORT = '3.7.0';
 
-// @todo detect broccoli-concat support for lazy activation. Show error page when missing
 module.exports = {
   name: 'ember-cli-concat-analyzer',
   _hashedFiles: {},
@@ -23,15 +23,19 @@ module.exports = {
 
   init() {
     this._super.init && this._super.init.apply(this, arguments);
+
+    let checker = new VersionChecker(this);
+    this.concatVersion = checker.for('broccoli-concat');
+
+    if (this.concatVersion.lt(BROCCOLI_CONCAT_LAZY_SUPPORT)) {
+      this.enableStats();
+    }
     this.initConcatStatsPath();
   },
 
   initConcatStatsPath() {
-    let checker = new VersionChecker(this);
-    let concatVersion = checker.for('broccoli-concat');
-
     // if broccoli-concat supports a custom path for stats data, put the data in a temp folder outside of the project!
-    if (concatVersion.gte(BROCCOLI_CONCAT_PATH_SUPPORT)) {
+    if (this.concatVersion.gte(BROCCOLI_CONCAT_PATH_SUPPORT)) {
       this.concatStatsPath = tmp.dirSync().name;
       process.env.CONCAT_STATS_PATH = this.concatStatsPath;
     } else {
