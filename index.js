@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const debug = require('debug')('ember-cli-concat-analyzer');
 const { createOutput, summarizeAll } = require('broccoli-concat-analyser');
 const fs = require('fs');
 const sane = require('sane');
@@ -87,7 +88,7 @@ module.exports = {
   },
 
   buildOutput() {
-    console.log('Computing stats...');
+    debug('Computing stats...');
     summarizeAll(this.concatStatsPath);
     return createOutput(this.concatStatsPath);
   },
@@ -104,20 +105,11 @@ module.exports = {
   },
 
   _handleWatcher(filename, root/*, stat*/) {
-    // if (this._buildCallback) {
-    //   this._buildCallback();
-    //   this._buildCallback = null;
-    //   console.log(`build cb`);
-    //
-    // }
-    // console.log(`Cache invalidated by ${filename}`);
-
-
     let file = path.join(root, filename);
     let hash = hashFiles({ files: [file] });
 
     if (this._hashedFiles[filename] !== hash) {
-      console.log(`Cache invalidated by ${filename}`);
+      debug(`Cache invalidated by ${filename}`);
       this._statsOutput = null;
       this._hashedFiles[filename] = hash;
     }
@@ -132,6 +124,7 @@ module.exports = {
   },
 
   enableStats() {
+    debug('Enabled stats generation');
     process.env.CONCAT_STATS = 'true';
   },
 
@@ -139,15 +132,16 @@ module.exports = {
     return new Promise((resolve) => {
       let stopIntercept = interceptStdout((text) => {
         if (text.match(/Build successful/)) {
+          debug('Finished build detected');
           stopIntercept();
           setTimeout(resolve, 10);
         }
       });
 
       let { root } = this.project;
+      debug('Triggering build');
       // @todo be smarter about path (app, addon, MU)
       touch(path.join(root, 'tests/dummy/app/app.js'));
-
     });
   }
 };
