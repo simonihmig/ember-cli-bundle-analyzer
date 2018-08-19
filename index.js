@@ -8,21 +8,21 @@ const touch = require('touch');
 const hashFiles = require('hash-files').sync;
 const tmp = require('tmp');
 const VersionChecker = require('ember-cli-version-checker');
+const interceptStdout = require('intercept-stdout');
 
 const REQUEST_PATH = '/_analyze';
 const BROCCOLI_CONCAT_PATH_SUPPORT = '3.6.0';
 
+// @todo detect broccoli-concat support for lazy activation. Show error page when missing
 module.exports = {
   name: 'ember-cli-concat-analyzer',
   _hashedFiles: {},
   _statsOutput: null,
+  _hasWatcher: false,
+  _buildCallback: null,
 
   init() {
     this._super.init && this._super.init.apply(this, arguments);
-
-    // Enable concat stats by default, as setting this later will not work
-    process.env.CONCAT_STATS = true;
-
     this.initConcatStatsPath();
   },
 
@@ -49,10 +49,9 @@ module.exports = {
     let app = config.app;
 
     app.get(REQUEST_PATH, (req, res) => {
-
       if (!this.hasStats()) {
-        this.enableStats();
-        this.triggerBuild();
+        res.sendFile(path.join(__dirname, 'lib', 'output', 'computing', 'index.html'));
+        return;
       }
 
       if (!this._statsOutput) {
@@ -63,34 +62,58 @@ module.exports = {
     });
 
     app.get(`${REQUEST_PATH}/compute`, (req, res) => {
-      if (!this.hasStats()) {
-        res.sendFile(path.join(__dirname, 'lib', 'output', 'no-stats', 'index.html'));
-        return;
-      }
-      this._statsOutput = this.buildOutput();
-      res.redirect(REQUEST_PATH);
+      this.initWatcher();
+      Promise.resolve()
+        .then(() => {
+          if (!this.hasStats()) {
+            this.enableStats();
+            return this.triggerBuild();
+          }
+        })
+        .then(() => {
+          try {
+            // @todo make this throw an exception when there are no stats
+            this._statsOutput = this.buildOutput();
+            res.redirect(REQUEST_PATH);
+          } catch (e) {
+            res.sendFile(path.join(__dirname, 'lib', 'output', 'no-stats', 'index.html'));
+          }
+        });
     });
   },
 
   buildOutput() {
+    console.log('Computing stats...');
     summarizeAll(this.concatStatsPath);
-    this.initWatcher();
     return createOutput(this.concatStatsPath);
   },
 
   initWatcher() {
+    if (this._hasWatcher) {
+      return;
+    }
     let watcher = sane(this.concatStatsPath, { glob: ['*.json'], ignored: ['*.out.json'] });
     watcher.on('change', this._handleWatcher.bind(this));
     watcher.on('add', this._handleWatcher.bind(this));
     watcher.on('delete', this._handleWatcher.bind(this));
+    this._hasWatcher = true;
   },
 
   _handleWatcher(filename, root/*, stat*/) {
+    // if (this._buildCallback) {
+    //   this._buildCallback();
+    //   this._buildCallback = null;
+    //   console.log(`build cb`);
+    //
+    // }
+    // console.log(`Cache invalidated by ${filename}`);
+
+
     let file = path.join(root, filename);
     let hash = hashFiles({ files: [file] });
 
     if (this._hashedFiles[filename] !== hash) {
-      // console.log(`Cache invalidated by ${filename}`);
+      console.log(`Cache invalidated by ${filename}`);
       this._statsOutput = null;
       this._hashedFiles[filename] = hash;
     }
@@ -101,7 +124,7 @@ module.exports = {
   },
 
   hasStats() {
-    return !!process.env.CONCAT_STATS && fs.existsSync(concatStatsPath);
+    return !!process.env.CONCAT_STATS && this.concatStatsPath && fs.existsSync(this.concatStatsPath);
   },
 
   enableStats() {
@@ -109,7 +132,18 @@ module.exports = {
   },
 
   triggerBuild() {
-    let { root } = this.project;
-    touch(path.join(root, 'tests/dummy/app/app.js'));
+    return new Promise((resolve) => {
+      let stopIntercept = interceptStdout((text) => {
+        if (text.match(/Build successful/)) {
+          stopIntercept();
+          setTimeout(resolve, 10);
+        }
+      });
+
+      let { root } = this.project;
+      // @todo be smarter about path (app, addon, MU)
+      touch(path.join(root, 'tests/dummy/app/app.js'));
+
+    });
   }
 };
