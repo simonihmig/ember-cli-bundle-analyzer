@@ -24,11 +24,13 @@ module.exports = {
 
   init() {
     this._super.init && this._super.init.apply(this, arguments);
+    debug(`${this.name} started.`);
 
     let checker = new VersionChecker(this);
     this.concatVersion = checker.for('broccoli-concat');
 
     if (this.concatVersion.lt(BROCCOLI_CONCAT_LAZY_SUPPORT)) {
+      debug(`broccoli-concat v${this.concatVersion.version} does not support lazy stats activation, forced to activate prematurely.`);
       this.enableStats();
     }
     this.initConcatStatsPath();
@@ -78,8 +80,11 @@ module.exports = {
         .then(() => {
           try {
             // @todo make this throw an exception when there are no stats
-            this._statsOutput = this.buildOutput();
-            res.redirect(REQUEST_PATH);
+            this.buildOutput()
+              .then((output) => {
+                this._statsOutput = output;
+                res.redirect(REQUEST_PATH);
+              });
           } catch(e) {
             res.sendFile(path.join(__dirname, 'lib', 'output', 'no-stats', 'index.html'));
           }
@@ -89,8 +94,11 @@ module.exports = {
 
   buildOutput() {
     debug('Computing stats...');
-    summarizeAll(this.concatStatsPath);
-    return createOutput(this.concatStatsPath);
+    return summarizeAll(this.concatStatsPath)
+      .then(() => {
+        debug('Computing finished.');
+        return createOutput(this.concatStatsPath);
+      });
   },
 
   initWatcher() {
