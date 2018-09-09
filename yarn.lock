@@ -941,14 +941,16 @@ broccoli-clean-css@^1.1.0:
     inline-source-map-comment "^1.0.5"
     json-stable-stringify "^1.0.0"
 
-broccoli-concat-analyser@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/broccoli-concat-analyser/-/broccoli-concat-analyser-4.1.0.tgz#a325b2f26843e726bded8d32270a049fbe986047"
+broccoli-concat-analyser@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/broccoli-concat-analyser/-/broccoli-concat-analyser-4.2.0.tgz#181c87ce3bcef540bc2997b841da171e5587fea3"
   dependencies:
     filesize "^3.3.0"
     ora "^0.3.0"
     uglify-es "^3.0.23"
     walk-sync "^0.3.1"
+    workerpool "^2.3.1"
+    zlib "^1.0.5"
 
 broccoli-concat@^3.2.2:
   version "3.7.0"
@@ -5881,6 +5883,12 @@ workerpool@^2.3.0:
   dependencies:
     object-assign "4.1.1"
 
+workerpool@^2.3.1:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/workerpool/-/workerpool-2.3.2.tgz#6bb17f31293e6b1e5e8dcdd5c2ad9122f471aaf3"
+  dependencies:
+    object-assign "4.1.1"
+
 wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
@@ -5972,3 +5980,7 @@ z-schema@^3.0.1:
     validator "^10.0.0"
   optionalDependencies:
     commander "^2.7.1"
+
+zlib@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/zlib/-/zlib-1.0.5.tgz#6e7c972fc371c645a6afb03ab14769def114fcc0"
