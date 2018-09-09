@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const debug = require('debug')('ember-cli-concat-analyzer');
+const debug = require('debug')('ember-cli-bundle-analyzer');
 const { createOutput, summarizeAll } = require('broccoli-concat-analyser');
 const fs = require('fs');
 const sane = require('sane');
@@ -16,7 +16,7 @@ const BROCCOLI_CONCAT_PATH_SUPPORT = '3.6.0';
 const BROCCOLI_CONCAT_LAZY_SUPPORT = '3.7.0';
 
 module.exports = {
-  name: 'ember-cli-concat-analyzer',
+  name: 'ember-cli-bundle-analyzer',
   _hashedFiles: {},
   _statsOutput: null,
   _hasWatcher: false,

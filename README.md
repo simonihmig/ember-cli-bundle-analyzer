@@ -1,7 +1,7 @@
-ember-cli-concat-analyzer
+ember-cli-bundle-analyzer
 ==============================================================================
 
-[![Build Status](https://travis-ci.org/simonihmig/ember-cli-concat-analyzer.svg?branch=master)](https://travis-ci.org/simonihmig/ember-cli-concat-analyzer)
+[![Build Status](https://travis-ci.org/simonihmig/ember-cli-bundle-analyzer.svg?branch=master)](https://travis-ci.org/simonihmig/ember-cli-bundle-analyzer)
 
 [Short description of the addon.]
 
@@ -9,7 +9,7 @@ Installation
 ------------------------------------------------------------------------------
 
 ```
-ember install ember-cli-concat-analyzer
+ember install ember-cli-bundle-analyzer
 ```
 
 
@@ -25,7 +25,7 @@ Contributing
 ### Installation
 
 * `git clone <repository-url>`
-* `cd ember-cli-concat-analyzer`
+* `cd ember-cli-bundle-analyzer`
 * `npm install`
 
 ### Linting
