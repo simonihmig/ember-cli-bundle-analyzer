@@ -695,7 +695,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwEyqo/B+CtGqPQAAAABJRU5ErkJggg=="/>
   </article>
 </main>
 <script>
-  document.location = document.location.href + '/compute';
+  var current = document.location.href;
+  document.location = current + (current.charAt(current.length - 1) !== '/' ? '/' : '') + 'compute';
 </script>
 </body>
 </html>
