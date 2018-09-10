@@ -21,6 +21,7 @@ module.exports = {
   _statsOutput: null,
   _hasWatcher: false,
   _buildCallback: null,
+  _computePromise: null,
 
   init() {
     this._super.init && this._super.init.apply(this, arguments);
@@ -34,6 +35,23 @@ module.exports = {
       this.enableStats();
     }
     this.initConcatStatsPath();
+  },
+
+  included: function(app) {
+    this._super.included.apply(this, arguments);
+    // this.app = app;
+    let options = app.options['bundle-analyzer'] || {};
+
+    let ignoredFiles = options && options.ignore || [];
+    if (!Array.isArray(ignoredFiles)) {
+      ignoredFiles = [ignoredFiles];
+    }
+
+    if (options.ignoreTestFiles !== false) {
+      ignoredFiles = ignoredFiles.concat('tests.js', 'test-support.js', 'test-support.css', '*-test.js');
+    }
+
+    this.ignoredFiles = ignoredFiles;
   },
 
   initConcatStatsPath() {
@@ -80,7 +98,7 @@ module.exports = {
         .then(() => {
           try {
             // @todo make this throw an exception when there are no stats
-            this.buildOutput()
+            this.computeOutput()
               .then((output) => {
                 this._statsOutput = output;
                 res.redirect(REQUEST_PATH);
@@ -92,19 +110,24 @@ module.exports = {
     });
   },
 
-  buildOutput() {
-    debug('Computing stats...');
-    return summarizeAll(this.concatStatsPath)
-      .then(() => {
-        debug('Computing finished.');
-        return createOutput(this.concatStatsPath);
-      });
+  computeOutput() {
+    if (!this._computePromise) {
+      debug('Computing stats...');
+      this._computePromise = summarizeAll(this.concatStatsPath, this.ignoredFiles)
+        .then(() => {
+          debug('Computing finished.');
+          this._computePromise = null;
+          return createOutput(this.concatStatsPath);
+        });
+    }
+    return this._computePromise;
   },
 
   initWatcher() {
     if (this._hasWatcher) {
       return;
     }
+    debug('Initializing watcher on json files');
     let watcher = sane(this.concatStatsPath, { glob: ['*.json'], ignored: ['*.out.json'] });
     watcher.on('change', this._handleWatcher.bind(this));
     watcher.on('add', this._handleWatcher.bind(this));
