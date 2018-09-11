@@ -22,6 +22,7 @@ module.exports = {
   _hasWatcher: false,
   _buildCallback: null,
   _computePromise: null,
+  _buildPromise: null,
 
   init() {
     this._super.init && this._super.init.apply(this, arguments);
@@ -89,6 +90,7 @@ module.exports = {
     app.get(`${REQUEST_PATH}/compute`, (req, res) => {
       this.initWatcher();
       Promise.resolve()
+        .then(() => this._buildPromise)
         .then(() => {
           if (!this.hasStats()) {
             this.enableStats();
@@ -160,24 +162,27 @@ module.exports = {
   },
 
   triggerBuild() {
-    return new Promise((resolve, reject) => {
-      let stopIntercept = interceptStdout((text) => {
-        if (text.match(/Build successful/)) {
-          stopIntercept();
-          debug('Finished build detected');
-          setTimeout(resolve, 10);
+    if (!this._buildPromise) {
+      this._buildPromise = new Promise((resolve, reject) => {
+        let stopIntercept = interceptStdout((text) => {
+          if (text.match(/Build successful/)) {
+            stopIntercept();
+            debug('Finished build detected');
+            setTimeout(resolve, 10);
+          }
+        });
+
+        debug('Triggering build');
+        let mainFile = this.getMainFile();
+        if (mainFile) {
+          debug(`Touching ${mainFile}`);
+          touch(mainFile);
+        } else {
+          reject('No main file found to trigger build')
         }
       });
-
-      debug('Triggering build');
-      let mainFile = this.getMainFile();
-      if (mainFile) {
-        debug(`Touching ${mainFile}`);
-        touch(mainFile);
-      } else {
-        reject('No main file found to trigger build')
-      }
-    });
+    }
+    return this._buildPromise;
   },
 
   getMainFile() {
