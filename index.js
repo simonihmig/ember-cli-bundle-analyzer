@@ -108,6 +108,9 @@ module.exports = {
           } catch(e) {
             res.sendFile(path.join(__dirname, 'lib', 'output', 'no-stats', 'index.html'));
           }
+        })
+        .catch(e => {
+          this.ui.writeError(e);
         });
     });
   },
