@@ -19,8 +19,7 @@
     "build": "ember build",
     "lint:js": "eslint .",
     "start": "ember serve",
-    "test": "ember test",
-    "test:all": "ember try:each"
+    "test": "mocha node-tests/**/*-test.js --recursive"
   },
   "dependencies": {
     "broccoli-concat-analyser": "^4.2.0",
@@ -29,12 +28,14 @@
     "ember-cli-version-checker": "^2.1.2",
     "hash-files": "^1.1.1",
     "intercept-stdout": "^0.1.2",
+    "node-html-light": "^1.0.0",
     "sane": "^3.0.0",
     "tmp": "^0.0.33",
     "touch": "^3.1.0"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.7.0",
+    "chai": "^4.1.2",
     "ember-cli": "~3.3.0",
     "ember-cli-dependency-checker": "^2.0.0",
     "ember-cli-eslint": "^4.2.1",
@@ -52,9 +53,12 @@
     "ember-source": "~3.3.0",
     "ember-source-channel-url": "^1.0.1",
     "ember-try": "^0.2.23",
+    "eslint-plugin-chai-expect": "^1.1.1",
     "eslint-plugin-ember": "^5.0.0",
+    "eslint-plugin-mocha": "^5.2.0",
     "eslint-plugin-node": "^6.0.1",
-    "loader.js": "^4.2.3"
+    "loader.js": "^4.2.3",
+    "mocha": "^5.2.0"
   },
   "engines": {
     "node": "6.* || 8.* || >= 10.*"

@@ -10,6 +10,7 @@ const hashFiles = require('hash-files').sync;
 const tmp = require('tmp');
 const VersionChecker = require('ember-cli-version-checker');
 const interceptStdout = require('intercept-stdout');
+const injectLivereload = require('./lib/inject-livereload');
 
 const REQUEST_PATH = '/_analyze';
 const BROCCOLI_CONCAT_PATH_SUPPORT = '3.6.0';
@@ -75,20 +76,26 @@ module.exports = {
     let app = config.app;
 
     app.get(REQUEST_PATH, (req, res) => {
-      if (!this.hasStats()) {
-        res.sendFile(path.join(__dirname, 'lib', 'output', 'computing', 'index.html'));
-        return;
-      }
+      this.initBuildWatcher();
+      Promise.resolve()
+        .then(() => this._buildPromise)
+        .then(() => {
+          if (!this.hasStats()) {
+            res.sendFile(path.join(__dirname, 'lib', 'output', 'computing', 'index.html'));
+            return;
+          }
 
-      if (!this._statsOutput) {
-        res.sendFile(path.join(__dirname, 'lib', 'output', 'computing', 'index.html'));
-      } else {
-        res.send(this._statsOutput);
-      }
+          if (!this._statsOutput) {
+            res.sendFile(path.join(__dirname, 'lib', 'output', 'computing', 'index.html'));
+          } else {
+            res.send(this._statsOutput);
+          }
+        });
     });
 
     app.get(`${REQUEST_PATH}/compute`, (req, res) => {
       this.initWatcher();
+      this.initBuildWatcher();
       Promise.resolve()
         .then(() => this._buildPromise)
         .then(() => {
@@ -102,7 +109,7 @@ module.exports = {
             // @todo make this throw an exception when there are no stats
             this.computeOutput()
               .then((output) => {
-                this._statsOutput = output;
+                this._statsOutput = injectLivereload(output);
                 res.redirect(REQUEST_PATH);
               });
           } catch(e) {
@@ -126,6 +133,24 @@ module.exports = {
         });
     }
     return this._computePromise;
+  },
+
+  initBuildWatcher() {
+    let resolve;
+    if (this._buildWatcher) {
+      return;
+    }
+    this._buildWatcher = interceptStdout((text) => {
+      if (text.match(/file (added|changed|deleted)/)) {
+        debug('Rebuild detected');
+        this._buildPromise = new Promise((_resolve) => resolve = _resolve);
+      }
+
+      if (text.match(/Build successful/)) {
+        debug('Finished build detected');
+        setTimeout(resolve, 1000);
+      }
+    });
   },
 
   initWatcher() {
@@ -165,27 +190,14 @@ module.exports = {
   },
 
   triggerBuild() {
-    if (!this._buildPromise) {
-      this._buildPromise = new Promise((resolve, reject) => {
-        let stopIntercept = interceptStdout((text) => {
-          if (text.match(/Build successful/)) {
-            stopIntercept();
-            debug('Finished build detected');
-            setTimeout(resolve, 10);
-          }
-        });
-
-        debug('Triggering build');
-        let mainFile = this.getMainFile();
-        if (mainFile) {
-          debug(`Touching ${mainFile}`);
-          touch(mainFile);
-        } else {
-          reject('No main file found to trigger build')
-        }
-      });
+    debug('Triggering build');
+    let mainFile = this.getMainFile();
+    if (mainFile) {
+      debug(`Touching ${mainFile}`);
+      touch(mainFile);
+    } else {
+      throw new Error('No main file found to trigger build');
     }
-    return this._buildPromise;
   },
 
   getMainFile() {
