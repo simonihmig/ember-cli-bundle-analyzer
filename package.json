@@ -36,7 +36,9 @@
   "devDependencies": {
     "broccoli-asset-rev": "^2.7.0",
     "chai": "^4.1.2",
+    "chai-http": "^4.2.0",
     "ember-cli": "~3.3.0",
+    "ember-cli-addon-tests": "^0.11.0",
     "ember-cli-dependency-checker": "^2.0.0",
     "ember-cli-eslint": "^4.2.1",
     "ember-cli-htmlbars": "^2.0.1",

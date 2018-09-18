@@ -101,7 +101,8 @@ module.exports = {
         .then(() => {
           if (!this.hasStats()) {
             this.enableStats();
-            return this.triggerBuild();
+            this.triggerBuild();
+            return this._initialBuildPromise;
           }
         })
         .then(() => {
@@ -113,6 +114,7 @@ module.exports = {
                 res.redirect(REQUEST_PATH);
               });
           } catch(e) {
+            this.ui.writeError(e);
             res.sendFile(path.join(__dirname, 'lib', 'output', 'no-stats', 'index.html'));
           }
         })
@@ -137,9 +139,11 @@ module.exports = {
 
   initBuildWatcher() {
     let resolve;
+    let initialResolve;
     if (this._buildWatcher) {
       return;
     }
+    this._initialBuildPromise = new Promise((_resolve) => initialResolve = _resolve);
     this._buildWatcher = interceptStdout((text) => {
       if (text.match(/file (added|changed|deleted)/)) {
         debug('Rebuild detected');
@@ -148,7 +152,10 @@ module.exports = {
 
       if (text.match(/Build successful/)) {
         debug('Finished build detected');
-        setTimeout(resolve, 1000);
+        setTimeout(() => {
+          resolve();
+          initialResolve();
+        }, 1000);
       }
     });
   },
