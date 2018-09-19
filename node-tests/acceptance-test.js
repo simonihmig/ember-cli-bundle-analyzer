@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 describe('acceptance', function() {
   let app;
 
-  this.timeout(60000);
+  this.timeout(120000);
 
   before(function() {
     app = new App(process.cwd());
