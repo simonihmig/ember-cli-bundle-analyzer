@@ -968,12 +968,14 @@ broccoli-clean-css@^1.1.0:
     inline-source-map-comment "^1.0.5"
     json-stable-stringify "^1.0.0"
 
-broccoli-concat-analyser@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/broccoli-concat-analyser/-/broccoli-concat-analyser-4.2.0.tgz#181c87ce3bcef540bc2997b841da171e5587fea3"
+broccoli-concat-analyser@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/broccoli-concat-analyser/-/broccoli-concat-analyser-4.3.0.tgz#37adbba55020b0fbdb67396a4f168104d7149701"
   dependencies:
     filesize "^3.3.0"
+    fs-extra "^4.0.2"
     ora "^0.3.0"
+    pify "^4.0.0"
     uglify-es "^3.0.23"
     walk-sync "^0.3.1"
     workerpool "^2.3.1"
@@ -4839,6 +4841,10 @@ pify@^2.0.0:
 pify@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/pify/-/pify-3.0.0.tgz#e5a4acd2c101fdf3d9a4d07f0dbc4db49dd28176"
+
+pify@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/pify/-/pify-4.0.0.tgz#db04c982b632fd0df9090d14aaf1c8413cadb695"
 
 pinkie-promise@^2.0.0:
   version "2.0.1"

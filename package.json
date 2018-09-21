@@ -22,7 +22,7 @@
     "test": "mocha node-tests/**/*-test.js --recursive"
   },
   "dependencies": {
-    "broccoli-concat-analyser": "^4.2.0",
+    "broccoli-concat-analyser": "^4.3.0",
     "debug": "^3.1.0",
     "ember-cli-babel": "^6.6.0",
     "ember-cli-version-checker": "^2.1.2",
