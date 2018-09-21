@@ -5,5 +5,5 @@ cache: yarn
 sudo: false
 
 script:
-  - npm run lint:js
-  - npm run test
+  - yarn lint:js
+  - yarn test
