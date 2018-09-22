@@ -63,6 +63,7 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "before": "history-support-middleware"
+    "before": "history-support-middleware",
+    "demoURL": "https://cdn.rawgit.com/kaliber5/ember-cli-bundle-analyzer/bceb55a7/docs/demo.html"
   }
 }
