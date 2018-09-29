@@ -3,11 +3,13 @@
   "version": "0.0.1",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "bundlesize",
+    "bundle-analyzer"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/simonihmig/ember-cli-concat-analyzer"
+    "url": "https://github.com/kaliber5/ember-cli-concat-analyzer"
   },
   "license": "MIT",
   "author": "Simon Ihmig <ihmig@kaliber5.de>",
@@ -63,6 +65,7 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "before": "history-support-middleware"
+    "before": "history-support-middleware",
+    "demoURL": "https://cdn.rawgit.com/kaliber5/ember-cli-bundle-analyzer/bceb55a7/docs/demo.html"
   }
 }
