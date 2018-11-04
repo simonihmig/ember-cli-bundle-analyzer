@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { App } = require('ember-cli-addon-tests');
+const tmp = require('tmp');
 
 const { expect } = chai;
 const port = 4444;
@@ -52,6 +53,23 @@ describe('acceptance', function() {
               .and.to.include('"label": "assets/dummy.js');
           });
       });
+  });
+
+  it('_analyze/compute shows error page', function() {
+    let origPath = process.env.CONCAT_STATS_PATH;
+    // setting a different stats path will cause a rejected promise during computation
+    process.env.CONCAT_STATS_PATH = tmp.dirSync().name;
+    return chai.request(baseUrl)
+      .get('/_analyze/compute')
+      .then((res) => {
+        expect(res).to.have.status(200)
+          .and.be.html;
+        expect(res.text).to.include('Dang! Looks like no stats are available.');
+      })
+      .then(
+        () => process.env.CONCAT_STATS_PATH = origPath,
+        () => process.env.CONCAT_STATS_PATH = origPath
+      );
   });
 
 });
