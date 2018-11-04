@@ -106,17 +106,16 @@ module.exports = {
           }
         })
         .then(() => {
-          try {
-            // @todo make this throw an exception when there are no stats
-            this.computeOutput()
-              .then((output) => {
-                this._statsOutput = injectLivereload(output);
-                res.redirect(REQUEST_PATH);
-              });
-          } catch(e) {
-            this.ui.writeError(e);
-            res.sendFile(path.join(__dirname, 'lib', 'output', 'no-stats', 'index.html'));
-          }
+          // @todo make this throw an exception when there are no stats
+          this.computeOutput()
+            .then((output) => {
+              this._statsOutput = injectLivereload(output);
+              res.redirect(REQUEST_PATH);
+            })
+            .catch((e) => {
+              this.ui.writeError(e);
+              res.sendFile(path.join(__dirname, 'lib', 'output', 'no-stats', 'index.html'));
+            });
         })
         .catch(e => {
           this.ui.writeError(e);
