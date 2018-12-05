@@ -1,7 +1,7 @@
 {
   "name": "ember-cli-bundle-analyzer",
   "version": "0.0.4",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Analyze the size and contents of your Ember app's bundles",
   "keywords": [
     "ember-addon",
     "bundlesize",
