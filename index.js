@@ -17,7 +17,8 @@ const BROCCOLI_CONCAT_PATH_SUPPORT = '3.6.0';
 const BROCCOLI_CONCAT_LAZY_SUPPORT = '3.7.0';
 
 module.exports = {
-  name: 'ember-cli-bundle-analyzer',
+  name: require('./package').name,
+
   _hashedFiles: {},
   _statsOutput: null,
   _hasWatcher: false,
