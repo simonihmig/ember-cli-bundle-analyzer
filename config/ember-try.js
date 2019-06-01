@@ -9,7 +9,22 @@ module.exports = function() {
     getChannelURL('canary')
   ]).then((urls) => {
     return {
+      command: 'yarn test',
+      useYarn: true,
       scenarios: [
+        {
+          name: 'ember-2.13',
+          env: {
+            EMBER_OPTIONAL_FEATURES: JSON.stringify({ 'jquery-integration': true })
+          },
+          npm: {
+            devDependencies: {
+              '@ember/jquery': '^0.6.0',
+              'ember-cli': '~2.13.0',
+              'ember-source': '~2.13.0',
+            }
+          }
+        },
         {
           name: 'ember-lts-2.18',
           env: {
@@ -17,8 +32,9 @@ module.exports = function() {
           },
           npm: {
             devDependencies: {
-              '@ember/jquery': '^0.5.1',
-              'ember-source': '~2.18.0'
+              '@ember/jquery': '^0.6.0',
+              'ember-cli': '~2.18.0',
+              'ember-source': '~2.18.0',
             }
           }
         },
@@ -26,7 +42,17 @@ module.exports = function() {
           name: 'ember-lts-3.4',
           npm: {
             devDependencies: {
+              'ember-cli': '~3.4.0',
               'ember-source': '~3.4.0'
+            }
+          }
+        },
+        {
+          name: 'ember-lts-3.8',
+          npm: {
+            devDependencies: {
+              'ember-cli': '~3.8.0',
+              'ember-source': '~3.8.0'
             }
           }
         },
@@ -34,6 +60,7 @@ module.exports = function() {
           name: 'ember-release',
           npm: {
             devDependencies: {
+              'ember-cli': 'ember-cli/ember-cli#latest',
               'ember-source': urls[0]
             }
           }
@@ -42,6 +69,7 @@ module.exports = function() {
           name: 'ember-beta',
           npm: {
             devDependencies: {
+              'ember-cli': 'ember-cli/ember-cli#beta',
               'ember-source': urls[1]
             }
           }
@@ -50,6 +78,7 @@ module.exports = function() {
           name: 'ember-canary',
           npm: {
             devDependencies: {
+              'ember-cli': 'ember-cli/ember-cli#master',
               'ember-source': urls[2]
             }
           }
@@ -62,19 +91,6 @@ module.exports = function() {
           name: 'ember-default',
           npm: {
             devDependencies: {}
-          }
-        },
-        {
-          name: 'ember-default-with-jquery',
-          env: {
-            EMBER_OPTIONAL_FEATURES: JSON.stringify({
-              'jquery-integration': true
-            })
-          },
-          npm: {
-            devDependencies: {
-              '@ember/jquery': '^0.5.1'
-            }
           }
         }
       ]
