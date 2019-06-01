@@ -219,7 +219,10 @@ module.exports = {
     let mainCandidates = [
       'app/app.js', // app
       'src/main.js', // MU
-      'tests/dummy/app/app.js' // addon dummy app
+      'tests/dummy/app/app.js', // addon dummy app
+      'app/app.ts', // app (TS)
+      'src/main.ts', // MU (TS)
+      'tests/dummy/app/app.ts' // addon dummy app (TS)
     ]
       .map((item) => path.join(root, item));
 
