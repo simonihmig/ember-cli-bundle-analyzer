@@ -145,6 +145,13 @@ module.exports = {
     }
     this._initialBuildPromise = new Promise((_resolve) => initialResolve = _resolve);
     this._buildWatcher = interceptStdout((text) => {
+      if (text instanceof Buffer) {
+        text = text.toString();
+      }
+      if (typeof text !== 'string') {
+        return text;
+      }
+
       if (text.match(/file (added|changed|deleted)/)) {
         debug('Rebuild detected');
         this._buildPromise = new Promise((_resolve) => resolve = _resolve);

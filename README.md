@@ -25,13 +25,21 @@ which in turn was inspired by
 [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer),
 and wraps it in Ember CLI addon to make it easy to use.
 
-## Installation
+Compatibility
+------------------------------------------------------------------------------
+
+* Ember CLI v2.13 or above
+* Node.js v8 or above
+
+Installation
+------------------------------------------------------------------------------
 
 ```
 ember install ember-cli-bundle-analyzer
 ```
 
-## Usage
+Usage
+------------------------------------------------------------------------------
 
 After you have started your development server using `ember serve`, this addon adds a custom middleware listening to
 `/_analyze`. So just open `http://localhost:4200/_analyze` in your web browser to access the analyzer output.
@@ -51,4 +59,12 @@ them.
 
 * `ignore` (string | string[]): add files to ignore. Glob patterns are supported, e.g. `*-fastboot.js`.
 
+Contributing
+------------------------------------------------------------------------------
 
+See the [Contributing](CONTRIBUTING.md) guide for details.
+
+License
+------------------------------------------------------------------------------
+
+This project is licensed under the [MIT License](LICENSE.md).
