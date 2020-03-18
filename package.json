@@ -24,7 +24,6 @@
     "lint:js": "eslint .",
     "start": "ember serve",
     "test": "mocha node-tests/**/*-test.js --recursive"
-
   },
   "dependencies": {
     "broccoli-concat-analyser": "^4.3.4",
