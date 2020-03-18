@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-bundle-analyzer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Analyze the size and contents of your Ember app's bundles",
   "keywords": [
     "ember-addon",
