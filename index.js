@@ -40,7 +40,7 @@ module.exports = {
     this.initConcatStatsPath();
   },
 
-  included: function(app) {
+  included(app) {
     this._super.included.apply(this, arguments);
     // this.app = app;
     let options = app.options['bundle-analyzer'] || {};
@@ -49,6 +49,10 @@ module.exports = {
     if (!Array.isArray(ignoredFiles)) {
       ignoredFiles = [ignoredFiles];
     }
+
+    // it seems ember itself bundles its files before they are added to vender.js, which causes concat stats to be
+    // generated which are irrelevant to the final bundle. So exclude them...
+    ignoredFiles = ignoredFiles.concat('ember.js', 'ember-testing.js');
 
     if (options.ignoreTestFiles !== false) {
       ignoredFiles = ignoredFiles.concat('tests.js', 'test-support.js', 'test-support.css', '*-test.js');
