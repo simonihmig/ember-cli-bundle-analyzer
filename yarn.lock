@@ -9152,10 +9152,10 @@ node-fetch@^2.6.0, node-fetch@^2.6.1:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
-node-html-light@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/node-html-light/-/node-html-light-1.4.0.tgz#da742386f82011b941f13fb168917e2826cebf30"
-  integrity sha512-sYlCrvhn5us6MW3ZLGpM0MXFlHUo14kN9itVFM3pjbaJG1a+B/3BCFoqAEAReqTDFxXs68ngkZ89edNxD0ja4Q==
+node-html-light@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/node-html-light/-/node-html-light-2.0.0.tgz#0d7f89b959d309486d9ef0dbaf54815026207d70"
+  integrity sha512-7o3yQzHO2mhz1M9iuGz8hNxmcCREizJd+PdK37HP/8lbXb59zII6luBxUuUMAyWIuAUda4iWykLZH7VmRSGKww==
   dependencies:
     htmlparser2 "^5.0.0"
 
