@@ -43,7 +43,7 @@
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
     "babel-eslint": "^10.1.0",
-    "chai": "^4.3.3",
+    "chai": "^4.3.4",
     "chai-http": "^4.3.0",
     "ember-auto-import": "^1.10.1",
     "ember-cli": "~3.22.0",
