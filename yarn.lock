@@ -7510,10 +7510,10 @@ html-encoding-sniffer@^2.0.1:
   dependencies:
     whatwg-encoding "^1.0.5"
 
-htmlparser2@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-5.0.0.tgz#78454bc782599291d9fefd7b48ef2058dc62eb89"
-  integrity sha512-/Cvz5RTj9q71kCL9No1u2jhFaAdoMtxpNy0YTwjmQB3iX2TZXfCojTm7tp3rM4NxcwaX1iAzvNgo8OFectXmrQ==
+htmlparser2@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-5.0.1.tgz#7daa6fc3e35d6107ac95a4fc08781f091664f6e7"
+  integrity sha512-vKZZra6CSe9qsJzh0BjBGXo8dvzNsq/oGvsjfRdOrrryfeD9UOBEEQdeoqCRmKZchF5h2zOBMQ6YuQ0uRUmdbQ==
   dependencies:
     domelementtype "^2.0.1"
     domhandler "^3.3.0"
@@ -9519,12 +9519,12 @@ node-fetch@^2.6.0, node-fetch@^2.6.1:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
-node-html-light@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/node-html-light/-/node-html-light-1.4.0.tgz#da742386f82011b941f13fb168917e2826cebf30"
-  integrity sha512-sYlCrvhn5us6MW3ZLGpM0MXFlHUo14kN9itVFM3pjbaJG1a+B/3BCFoqAEAReqTDFxXs68ngkZ89edNxD0ja4Q==
+node-html-light@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/node-html-light/-/node-html-light-2.5.0.tgz#f11a810417f88ee8a4e6983c1347056e738242b8"
+  integrity sha512-zPn6mu/6g3gI+YpbXuh2cmbvBu45y+utBZAj8fX0fdwfHEME+50VZsx0phQwI1/Miu2aPjxlELJijEA0wtPoKg==
   dependencies:
-    htmlparser2 "^5.0.0"
+    htmlparser2 "^5.0.1"
 
 node-int64@^0.4.0:
   version "0.4.0"
