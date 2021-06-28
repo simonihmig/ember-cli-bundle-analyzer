@@ -34,7 +34,7 @@
     "hash-files": "^1.1.1",
     "intercept-stdout": "^0.1.2",
     "node-html-light": "^1.4.0",
-    "sane": "^4.1.0",
+    "sane": "^5.0.1",
     "tmp": "^0.2.1",
     "touch": "^3.1.0"
   },
