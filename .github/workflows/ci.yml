@@ -3,72 +3,45 @@ name: CI
 on:
   push:
     branches:
+      - main
       - master
-    tags:
-      - '*'
-  pull_request:
-  schedule:
-    - cron:  '0 4 * * 5' # Fridays at 4am
+  pull_request: {}
+
+concurrency:
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  test:
-    name: Tests
+  lint:
+    name: "Lint"
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Setup node.js
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
         with:
-          node-version: 10
-      - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+          node-version: 16.x
+          cache: yarn
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
       - name: Lint
         run: yarn lint
-      - name: Test
-        run: yarn test
 
-  test-no-lock:
-    name: Floating Dependencies
+  test:
+    name: "Test"
     runs-on: ubuntu-latest
-    needs:
-      - test
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Setup node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 10
-      - name: Install dependencies
-        uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
-      - name: Test
-        run: yarn test
+    timeout-minutes: 10
 
-  test-try:
-    name: Additional Tests
-    runs-on: ubuntu-latest
-    needs:
-      - test
-    strategy:
-      matrix:
-        scenario:
-          - ember-lts-3.12
-          - ember-lts-3.16
-          - ember-release
-          - ember-beta
-          - ember-canary
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Setup node.js
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
         with:
-          node-version: 10
-      - name: Install dependencies
-        uses: bahmutov/npm-install@v1
-      - name: Test
-        run: yarn ember try:one ${{ matrix.scenario }}
+          node-version: 16.x
+          cache: yarn
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run Tests
+        run: yarn test
