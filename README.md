@@ -1,14 +1,14 @@
 ember-cli-bundle-analyzer
 ==============================================================================
 
-![CI](https://github.com/kaliber5/ember-cli-bundle-analyzer/workflows/CI/badge.svg)
+![CI](https://github.com/simonihmig/ember-cli-bundle-analyzer/workflows/CI/badge.svg)
 [![Ember Observer Score](https://emberobserver.com/badges/ember-cli-bundle-analyzer.svg)](https://emberobserver.com/addons/ember-cli-bundle-analyzer)
 [![npm version](https://badge.fury.io/js/ember-cli-bundle-analyzer.svg)](https://badge.fury.io/js/ember-cli-bundle-analyzer)
 
 An Ember CLI addon to analyze the size and contents of your app's bundled output, 
 using an interactive zoomable treemap.
 
-View the [interactive Demo](https://cdn.rawgit.com/kaliber5/ember-cli-bundle-analyzer/bceb55a7/docs/demo.html)
+View the [interactive Demo](https://cdn.rawgit.com/simonihmig/ember-cli-bundle-analyzer/bceb55a7/docs/demo.html)
 
 ![Screenshot of analyzer output](docs/screen.png)
 
