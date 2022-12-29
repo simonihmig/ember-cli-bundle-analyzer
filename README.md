@@ -1,5 +1,4 @@
-ember-cli-bundle-analyzer
-==============================================================================
+# ember-cli-bundle-analyzer
 
 ![CI](https://github.com/simonihmig/ember-cli-bundle-analyzer/workflows/CI/badge.svg)
 [![Ember Observer Score](https://emberobserver.com/badges/ember-cli-bundle-analyzer.svg)](https://emberobserver.com/addons/ember-cli-bundle-analyzer)
@@ -25,22 +24,24 @@ which in turn was inspired by
 [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer),
 and wraps it in Ember CLI addon to make it easy to use.
 
-Compatibility
-------------------------------------------------------------------------------
+It uses [broccoli-concat-analyser](https://github.com/stefanpenner/broccoli-concat-analyser) under the hood,
+which in turn was inspired by 
+[webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer),
+and wraps it in Ember CLI addon to make it easy to use.
 
-* Ember.js v3.12 or above
-* Ember CLI v3.12 or above
-* Node.js v10 or above
+## Compatibility
 
-Installation
-------------------------------------------------------------------------------
+* Ember CLI v3.28 or above
+* Node.js v14 or above
+
+
+## Installation
 
 ```
 ember install ember-cli-bundle-analyzer
 ```
 
-Usage
-------------------------------------------------------------------------------
+## Usage
 
 After you have started your development server using `ember serve`, this addon adds a custom middleware listening to
 `/_analyze`. So just open `http://localhost:4200/_analyze` in your web browser to access the analyzer output.
@@ -60,12 +61,11 @@ them.
 
 * `ignore` (string | string[]): add files to ignore. Glob patterns are supported, e.g. `*-fastboot.js`.
 
-Contributing
-------------------------------------------------------------------------------
+## Contributing
 
 See the [Contributing](CONTRIBUTING.md) guide for details.
 
-License
-------------------------------------------------------------------------------
+
+## License
 
 This project is licensed under the [MIT License](LICENSE.md).
