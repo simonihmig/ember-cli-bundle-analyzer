@@ -32,7 +32,7 @@ and wraps it in Ember CLI addon to make it easy to use.
 ## Compatibility
 
 * Ember CLI v3.28 or above
-* Node.js v14 or above
+* Node.js v16 or above
 
 
 ## Installation
