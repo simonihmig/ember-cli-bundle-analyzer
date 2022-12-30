@@ -2,9 +2,17 @@
 
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
+const isProduction = process.env.EMBER_ENV === 'production';
+
 module.exports = function (defaults) {
   const app = new EmberAddon(defaults, {
     // Add options here
+    sourcemaps: { enabled: true, },
+    autoImport: {
+      webpack: {
+        devtool: isProduction ? 'source-map' : 'eval-source-map',
+      },
+    },
   });
 
   /*
