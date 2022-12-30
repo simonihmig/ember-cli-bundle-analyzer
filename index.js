@@ -96,7 +96,7 @@ module.exports = {
 
       let files = await glob(this.bundleFiles, { ignore: this.ignoredFiles.map(file => `dist/assets/${file}`) });
       debug('Found these bundles: ' + files.join(', '));
-      this._computePromise = explore(files, { output: { format: 'html' } })
+      this._computePromise = explore(files, { output: { format: 'html' }, replaceMap: { 'dist/': '' }})
         .then((result) => {
           debug('Computing finished: ' + JSON.stringify(result));
           this._computePromise = null;
