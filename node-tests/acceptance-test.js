@@ -47,9 +47,8 @@ describe('acceptance', function() {
               .and.be.html;
 
             expect(res.text)
-              .to.include('var treeDataMap = {')
-              .and.to.include('assets/vendor.js')
-              .and.to.include('assets/dummy.js');
+              .to.include('const treeDataMap = {')
+              .and.to.include('assets/vendor.js');
           });
       });
   });
