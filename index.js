@@ -106,7 +106,17 @@ module.exports = {
         replaceMap: { 'dist/': '' },
         noBorderChecks: true,
       }).then((result) => {
-        debug('Computing finished: ' + JSON.stringify(result));
+        debug(
+          'Computing finished, bundle results: ' +
+            JSON.stringify(result.bundles)
+        );
+
+        result.errors.map((e) =>
+          this.ui[e.isWarning ? 'writeWarnLine' : 'writeErrorLine'](
+            `${e.bundleName}: ${e.message}`
+          )
+        );
+
         this._computePromise = null;
         return result.output;
       });
