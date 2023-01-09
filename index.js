@@ -29,6 +29,7 @@ module.exports = {
     this._super.included.apply(this, arguments);
     // this.app = app;
     let options = app.options['bundle-analyzer'] || {};
+    this.analyzerOptions = options;
 
     let ignoredFiles = (options && options.ignore) || [];
     if (!Array.isArray(ignoredFiles)) {
@@ -156,6 +157,6 @@ module.exports = {
   },
 
   isEnabled() {
-    return true;
+    return this.app.options['bundle-analyzer'].enabled !== false;
   },
 };

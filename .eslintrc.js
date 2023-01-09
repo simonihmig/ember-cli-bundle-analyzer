@@ -1,33 +1,22 @@
 module.exports = {
   root: true,
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2020,
   },
-  plugins: [
-    'node'
-  ],
-  extends: [
-    'eslint:recommended',
-    'plugin:node/recommended'
-  ],
+  plugins: ['node'],
+  extends: ['eslint:recommended', 'plugin:node/recommended'],
   env: {
-    node: true
+    node: true,
   },
-  rules: {
-  },
+  rules: {},
   overrides: [
     // mocha tests
     {
-      files: [
-        'node-tests/**/*.js'
-      ],
-      plugins: [
-        'chai-expect',
-        'mocha',
-      ],
+      files: ['node-tests/**/*.js'],
+      plugins: ['chai-expect', 'mocha'],
       env: {
-        mocha: true
+        mocha: true,
       },
-    }
-  ]
+    },
+  ],
 };
