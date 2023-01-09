@@ -30,17 +30,17 @@ module.exports = {
     // this.app = app;
     let options = app.options['bundle-analyzer'] || {};
 
-    let ignoredFiles = options && options.ignore || [];
+    let ignoredFiles = (options && options.ignore) || [];
     if (!Array.isArray(ignoredFiles)) {
       ignoredFiles = [ignoredFiles];
     }
 
-    // it seems ember itself bundles its files before they are added to vender.js, which causes concat stats to be
-    // generated which are irrelevant to the final bundle. So exclude them...
-    ignoredFiles = ignoredFiles.concat('ember.js', 'ember-testing.js');
-
     if (options.ignoreTestFiles !== false) {
-      ignoredFiles = ignoredFiles.concat('tests.js', 'test-support.js', 'test-support.css');
+      ignoredFiles = ignoredFiles.concat(
+        'tests.js',
+        'test-support.js',
+        'test-support.css'
+      );
     }
 
     this.ignoredFiles = ignoredFiles;
@@ -60,7 +60,9 @@ module.exports = {
       this.initBuildWatcher();
       await this._buildPromise;
       if (!this._statsOutput) {
-        res.sendFile(path.join(__dirname, 'lib', 'output', 'computing', 'index.html'));
+        res.sendFile(
+          path.join(__dirname, 'lib', 'output', 'computing', 'index.html')
+        );
       } else {
         res.send(this._statsOutput);
       }
@@ -71,17 +73,18 @@ module.exports = {
       this.initBuildWatcher();
       await this._buildPromise;
       try {
-        let output = await this.computeOutput()
+        let output = await this.computeOutput();
         this._statsOutput = injectLivereload(output);
         res.redirect(REQUEST_PATH);
-      }
-      catch(e) {
+      } catch (e) {
         if (e.errors) {
-          e.errors.map(e => this.ui.writeError(e.error));
+          e.errors.map((e) => this.ui.writeError(e.error));
         } else {
           this.ui.writeError(e);
         }
-        res.sendFile(path.join(__dirname, 'lib', 'output', 'no-stats', 'index.html'));
+        res.sendFile(
+          path.join(__dirname, 'lib', 'output', 'no-stats', 'index.html')
+        );
       }
     });
   },
@@ -94,14 +97,19 @@ module.exports = {
     if (!this._computePromise) {
       debug('Computing stats...');
 
-      let files = await glob(this.bundleFiles, { ignore: this.ignoredFiles.map(file => `dist/assets/${file}`) });
+      let files = await glob(this.bundleFiles, {
+        ignore: this.ignoredFiles.map((file) => `dist/assets/${file}`),
+      });
       debug('Found these bundles: ' + files.join(', '));
-      this._computePromise = explore(files, { output: { format: 'html' }, replaceMap: { 'dist/': '' }})
-        .then((result) => {
-          debug('Computing finished: ' + JSON.stringify(result));
-          this._computePromise = null;
-          return result.output;
-        });
+      this._computePromise = explore(files, {
+        output: { format: 'html' },
+        replaceMap: { 'dist/': '' },
+        noBorderChecks: true,
+      }).then((result) => {
+        debug('Computing finished: ' + JSON.stringify(result));
+        this._computePromise = null;
+        return result.output;
+      });
     }
     return this._computePromise;
   },
@@ -121,7 +129,7 @@ module.exports = {
 
       if (text.match(/file (added|changed|deleted)/)) {
         debug('Rebuild detected');
-        this._buildPromise = new Promise((_resolve) => resolve = _resolve);
+        this._buildPromise = new Promise((_resolve) => (resolve = _resolve));
         this._statsOutput = null;
       }
 
@@ -139,5 +147,5 @@ module.exports = {
 
   isEnabled() {
     return true;
-  }
+  },
 };
