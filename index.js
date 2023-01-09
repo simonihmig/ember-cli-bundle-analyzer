@@ -104,7 +104,7 @@ module.exports = {
       debug('Found these bundles: ' + files.join(', '));
       this._computePromise = explore(files, {
         output: { format: 'html' },
-        replaceMap: { 'dist/': '' },
+        replaceMap: { 'dist/': '', 'webpack://__ember_auto_import__/': '' },
         noBorderChecks: true,
       }).then((result) => {
         debug(
@@ -157,6 +157,6 @@ module.exports = {
   },
 
   isEnabled() {
-    return this.app.options['bundle-analyzer'].enabled !== false;
+    return this.app.options['bundle-analyzer']?.enabled !== false;
   },
 };
