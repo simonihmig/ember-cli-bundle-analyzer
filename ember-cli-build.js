@@ -1,16 +1,14 @@
 'use strict';
 
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+const { createEmberCLIConfig } = require('./create-config');
 
 module.exports = function (defaults) {
   const app = new EmberAddon(defaults, {
     // Add options here
-    sourcemaps: { enabled: true },
-    autoImport: {
-      webpack: {
-        devtool: 'source-map',
-      },
-    },
+
+    // for our dummy app, we always want to enable us
+    ...createEmberCLIConfig(true),
   });
 
   /*
