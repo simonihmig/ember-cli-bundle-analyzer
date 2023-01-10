@@ -188,6 +188,6 @@ module.exports = {
   },
 
   isEnabled() {
-    return this.app.options['bundle-analyzer']?.enabled !== false;
+    return this.app.options['bundle-analyzer']?.enabled === true;
   },
 };
