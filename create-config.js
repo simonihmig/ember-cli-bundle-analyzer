@@ -3,7 +3,7 @@ function createEmberCLIConfig(enabled) {
 
   return isEnabled
     ? {
-        'bundleAnalyzer': {
+        bundleAnalyzer: {
           enabled: true,
         },
         sourcemaps: { enabled: true },
@@ -20,6 +20,12 @@ function createWebpackConfig(enabled) {
   return isEnabled
     ? {
         devtool: 'source-map',
+        optimization: {
+          chunkIds: 'named',
+        },
+        output: {
+          clean: true,
+        },
       }
     : {};
 }
