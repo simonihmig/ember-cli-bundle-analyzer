@@ -30,7 +30,7 @@ module.exports = {
 
     this.checkSourcemapConfigs();
 
-    let options = app.options['bundle-analyzer'] || {};
+    let options = app.options['bundleAnalyzer'] || {};
     this.analyzerOptions = options;
 
     let ignoredFiles = (options && options.ignore) || [];
@@ -188,6 +188,6 @@ module.exports = {
   },
 
   isEnabled() {
-    return this.app.options['bundle-analyzer']?.enabled === true;
+    return this.app.options['bundleAnalyzer']?.enabled === true;
   },
 };

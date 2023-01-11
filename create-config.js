@@ -3,7 +3,7 @@ function createEmberCLIConfig(enabled) {
 
   return isEnabled
     ? {
-        'bundle-analyzer': {
+        'bundleAnalyzer': {
           enabled: true,
         },
         sourcemaps: { enabled: true },
