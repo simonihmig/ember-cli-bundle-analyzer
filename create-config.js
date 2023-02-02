@@ -1,10 +1,11 @@
-function createEmberCLIConfig(enabled) {
-  const isEnabled = enabled ?? !!process.env.ENABLE_BUNDLE_ANALYZER;
+function createEmberCLIConfig(forceEnabled = undefined, ownConfig = {}) {
+  const isEnabled = forceEnabled ?? !!process.env.ENABLE_BUNDLE_ANALYZER;
 
   return isEnabled
     ? {
         bundleAnalyzer: {
           enabled: true,
+          ...ownConfig,
         },
         sourcemaps: { enabled: true },
         autoImport: {
@@ -14,8 +15,8 @@ function createEmberCLIConfig(enabled) {
     : {};
 }
 
-function createWebpackConfig(enabled) {
-  const isEnabled = enabled ?? !!process.env.ENABLE_BUNDLE_ANALYZER;
+function createWebpackConfig(forceEnabled) {
+  const isEnabled = forceEnabled ?? !!process.env.ENABLE_BUNDLE_ANALYZER;
 
   return isEnabled
     ? {
