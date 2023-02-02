@@ -61,18 +61,18 @@ module.exports = {
 
     if (!emberCliSupport) {
       this.ui.writeWarnLine(
-        'ember-cli-bundle-analyzer requires source maps to be enabled, but they are turned off for Ember CLI. Please see https://github.com/simonihmig/ember-cli-bundle-analyzer#sourcemaps for how to enable them!'
+        'ember-cli-bundle-analyzer requires source maps to be enabled, but they are turned off for Ember CLI. Please see https://github.com/simonihmig/ember-cli-bundle-analyzer#source-maps for how to enable them!'
       );
     }
 
     if (emberAutoImportSupport !== 'source-map') {
       if (!emberAutoImportSupport) {
         this.ui.writeWarnLine(
-          `ember-cli-bundle-analyzer requires fully enabled source maps for ember-auto-import, but they are turned off. Please see https://github.com/simonihmig/ember-cli-bundle-analyzer#sourcemaps for how to enable them!`
+          `ember-cli-bundle-analyzer requires fully enabled source maps for ember-auto-import, but they are turned off. Please see https://github.com/simonihmig/ember-cli-bundle-analyzer#source-maps for how to enable them!`
         );
       } else {
         this.ui.writeWarnLine(
-          `ember-cli-bundle-analyzer requires fully enabled source maps for ember-auto-import, but the config is set to "${emberAutoImportSupport}". Please see https://github.com/simonihmig/ember-cli-bundle-analyzer#sourcemaps for how to enable them!`
+          `ember-cli-bundle-analyzer requires fully enabled source maps for ember-auto-import, but the config is set to "${emberAutoImportSupport}". Please see https://github.com/simonihmig/ember-cli-bundle-analyzer#source-maps for how to enable them!`
         );
       }
     }
