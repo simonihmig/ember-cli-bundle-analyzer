@@ -92,6 +92,35 @@ module.exports = function (defaults) {
 };
 ```
 
+If you are using Embroider, then this should cover you:
+
+```js
+// ember-cli-build.js
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const {
+  createEmberCLIConfig,
+  createWebpackConfig,
+} = require('ember-cli-bundle-analyzer/create-config');
+
+module.exports = function (defaults) {
+  const app = new EmberApp(defaults, {
+    // your other options are here
+    // ...
+    ...createEmberCLIConfig(),
+  });
+
+  return require('@embroider/compat').compatBuild(app, Webpack, {
+    // your Embroider options...
+    packagerOptions: {
+      webpackConfig: {
+        // any custom webpack options you might have
+        ...createWebpackConfig(),
+      },
+    },
+  });
+};
+```
+
 With this config, when the environment variable `ENABLE_BUNDLE_ANALYZER` is set, it will enable the addon and apply required options to both Ember CLI and ember-auto-import to fully enable source maps with the required fidelity level.
 
 > The reason the addon is not enabled by default is that it would be pointless if not having proper source maps fully enabled as well. And this might not be what you want by default, as generating full source maps comes at a cost of increased build times. On top of that you might also want to analyze the bundles only in production mode.
