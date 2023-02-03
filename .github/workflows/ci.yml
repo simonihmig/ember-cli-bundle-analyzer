@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   lint:
-    name: "Lint"
+    name: 'Lint'
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -29,8 +29,8 @@ jobs:
       - name: Lint
         run: yarn lint
 
-  test:
-    name: "Test"
+  test_classic:
+    name: 'Test Ember CLI + ember-auto-import'
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -45,3 +45,24 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Run Tests
         run: yarn test
+
+  test_embroider:
+    name: 'Test Embroider'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: yarn
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Install Embroider
+        run: yarn add -D @embroider/core @embroider/compat @embroider/webpack
+      - name: Run Tests
+        run: yarn test
+        env:
+          EMBROIDER_TEST_SETUP_OPTIONS: optimized
