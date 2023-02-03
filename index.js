@@ -18,7 +18,11 @@ module.exports = {
   _buildCallback: null,
   _computePromise: null,
   _buildPromise: null,
-  bundleFiles: ['dist/assets/*.js', 'dist/assets/*.css'],
+  bundleFiles: [
+    'dist/assets/*.js',
+    // ignore CSS files for now, due to https://github.com/ember-cli/ember-cli/issues/9384
+    // 'dist/assets/*.css'
+  ],
 
   init() {
     this._super.init && this._super.init.apply(this, arguments);

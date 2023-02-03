@@ -10,7 +10,7 @@ function createEmberCLIConfig(forceEnabled = undefined, ownConfig = {}) {
         fingerprint: {
           enabled: false,
         },
-        sourcemaps: { enabled: true },
+        sourcemaps: { enabled: true, extensions: ['js', 'css'] },
         autoImport: {
           webpack: createWebpackConfig(isEnabled),
         },
