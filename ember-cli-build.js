@@ -1,10 +1,17 @@
 'use strict';
 
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+const {
+  createEmberCLIConfig,
+  createWebpackConfig,
+} = require('./create-config');
 
 module.exports = function (defaults) {
   const app = new EmberAddon(defaults, {
     // Add options here
+
+    // for our dummy app, we always want to enable us
+    ...createEmberCLIConfig(true),
   });
 
   /*
@@ -21,5 +28,10 @@ module.exports = function (defaults) {
         package: 'qunit',
       },
     ],
+    packagerOptions: {
+      webpackConfig: {
+        ...createWebpackConfig(true),
+      },
+    },
   });
 };
